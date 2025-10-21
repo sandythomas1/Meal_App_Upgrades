@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:Meal_App_Upgrades/models/meal.dart';
 import 'package:Meal_App_Upgrades/providers/planner_meal_provider.dart';
 import 'package:Meal_App_Upgrades/screens/meal_details.dart';
@@ -19,6 +21,34 @@ class BuildMealPlanTime extends ConsumerWidget {
           builder: (ctx) => MealDetailsScreen(
             meal: meal,
           ),
+        ),
+      );
+    }
+
+    Future<void> _performHttpRequest() async {
+      final uri = Uri.parse('https://meals-upgrade-ebdd2-default-rtdb.firebaseio.com/,' 'planner-meals.json');
+
+      try {
+        // final response = await http.get(uri);
+        // if (response.statusCode == 200) {
+        //   // final data = jsonDecode(response.body);
+        //   // handle successful response
+        // } else {
+        //   // handle non-200 response
+        // }
+      } catch (error) {
+        // handle network / parsing error
+      }
+        final response = await http.post(
+          uri,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: json.encode(
+            {
+              day: _WeekDay,
+              type: _MealType,
+          },
         ),
       );
     }
