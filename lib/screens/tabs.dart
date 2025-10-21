@@ -1,3 +1,4 @@
+import 'package:Meal_App_Upgrades/screens/planner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:Meal_App_Upgrades/screens/categories.dart';
@@ -68,6 +69,11 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
       activePageTitle = 'Your Favorites';
     }
 
+    if (_selectedPageIndex == 2) {
+      activePage = PlannerScreen();
+      activePageTitle = 'Planner';
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text(activePageTitle),
@@ -84,6 +90,10 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.star), 
             label: 'Favorites',),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.calendar_month),
+            label: 'Meal Planner',
+          ),
         ],
       ),
     );
