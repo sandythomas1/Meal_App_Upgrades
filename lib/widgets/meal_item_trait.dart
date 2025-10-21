@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 
-class MealItemTrait extends StatelessWidget {
-  const MealItemTrait({
-    super.key,
-    required this.icon,
-    required this.label,
-  });
+class MealItemTrait extends StatelessWidget{
+  const MealItemTrait({super.key, required this.icon, required this.label});
 
   final IconData icon;
   final String label;
@@ -15,12 +11,11 @@ class MealItemTrait extends StatelessWidget {
     return Row(
       children: [
         Icon(icon, size: 17, color: Colors.white),
-        SizedBox(width: 6),
-        Text(
-          label,
+        const SizedBox(width: 6),
+        Text(label,
           style: const TextStyle(
             color: Colors.white,
-          ),
+          ),  
         ),
       ],
     );
