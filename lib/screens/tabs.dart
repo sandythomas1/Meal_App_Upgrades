@@ -11,6 +11,7 @@ import 'package:Meal_App_Upgrades/screens/random_meal.dart';
 //import 'package:Meal_App_Upgrades/providers/meals_provider.dart';
 import 'package:Meal_App_Upgrades/providers/favorites_provider.dart';
 import 'package:Meal_App_Upgrades/providers/filters_provider.dart';
+import 'package:Meal_App_Upgrades/providers/planner_meal_provider.dart';
 const kInitialFilters = {
   Filter.glutenFree: false,
   Filter.lactoseFree: false,
@@ -28,6 +29,15 @@ class TabsScreen extends ConsumerStatefulWidget {
 }
 class _TabsScreenState extends ConsumerState<TabsScreen> {
   int _selectedPageIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    // Load planner meals from Firebase when app starts
+    Future.microtask(() => 
+      ref.read(plannerMealsProvider.notifier).loadPlannedMeals()
+    );
+  }
   
   void _selectPage(int index) {
     setState(() {

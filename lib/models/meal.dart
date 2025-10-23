@@ -59,10 +59,12 @@ enum MealType {
 }
 
 class PlannerMeal extends Meal {
-  PlannerMeal({required super.id, required super.categories, required super.title, required super.imageUrl, required super.ingredients, required super.steps, required super.duration, required super.complexity, required super.affordability, required super.isGlutenFree, required super.isLactoseFree, required super.isVegan, required super.isVegetarian, required this.weekDay, required this.mealType});
+  PlannerMeal({required super.id, required super.categories, required super.title, required super.imageUrl, required super.ingredients, required super.steps, required super.duration, required super.complexity, required super.affordability, required super.isGlutenFree, required super.isLactoseFree, required super.isVegan, required super.isVegetarian, required this.weekDay, required this.mealType, this.firebaseId});
+  
   PlannerMeal.mealConvert(Meal meal, WeekDay day, MealType type)
         : weekDay = day,
           mealType = type,
+          firebaseId = null,
           super(
             id: meal.id,
             categories: meal.categories,
@@ -79,24 +81,87 @@ class PlannerMeal extends Meal {
             isVegetarian: meal.isVegetarian,
           );
           
-    final weekDay;
-    final mealType;
+    final WeekDay weekDay;
+    final MealType mealType;
+    final String? firebaseId;
 
     Meal get meal {
     return Meal(            
-      id: meal.id,
-      categories: meal.categories,
-      title: meal.title,      
-      imageUrl: meal.imageUrl,
-      ingredients: meal.ingredients,
-      steps: meal.steps,
-      duration: meal.duration,
-      complexity: meal.complexity,
-      affordability: meal.affordability,
-      isGlutenFree: meal.isGlutenFree,
-      isLactoseFree: meal.isLactoseFree,
-      isVegan: meal.isVegan,
-      isVegetarian: meal.isVegetarian,);
+      id: id,
+      categories: categories,
+      title: title,      
+      imageUrl: imageUrl,
+      ingredients: ingredients,
+      steps: steps,
+      duration: duration,
+      complexity: complexity,
+      affordability: affordability,
+      isGlutenFree: isGlutenFree,
+      isLactoseFree: isLactoseFree,
+      isVegan: isVegan,
+      isVegetarian: isVegetarian,);
+    }
+
+    Map<String, dynamic> toJson() {
+      return {
+        'id': id,
+        'categories': categories,
+        'title': title,
+        'imageUrl': imageUrl,
+        'ingredients': ingredients,
+        'steps': steps,
+        'duration': duration,
+        'complexity': complexity.index,
+        'affordability': affordability.index,
+        'isGlutenFree': isGlutenFree,
+        'isLactoseFree': isLactoseFree,
+        'isVegan': isVegan,
+        'isVegetarian': isVegetarian,
+        'weekDay': weekDay.index,
+        'mealType': mealType.index,
+      };
+    }
+
+    factory PlannerMeal.fromJson(Map<String, dynamic> json, String firebaseId) {
+      return PlannerMeal(
+        id: json['id'],
+        categories: List<String>.from(json['categories']),
+        title: json['title'],
+        imageUrl: json['imageUrl'],
+        ingredients: List<String>.from(json['ingredients']),
+        steps: List<String>.from(json['steps']),
+        duration: json['duration'],
+        complexity: Complexity.values[json['complexity']],
+        affordability: Affordability.values[json['affordability']],
+        isGlutenFree: json['isGlutenFree'],
+        isLactoseFree: json['isLactoseFree'],
+        isVegan: json['isVegan'],
+        isVegetarian: json['isVegetarian'],
+        weekDay: WeekDay.values[json['weekDay']],
+        mealType: MealType.values[json['mealType']],
+        firebaseId: firebaseId,
+      );
+    }
+
+    PlannerMeal copyWith({String? firebaseId}) {
+      return PlannerMeal(
+        id: id,
+        categories: categories,
+        title: title,
+        imageUrl: imageUrl,
+        ingredients: ingredients,
+        steps: steps,
+        duration: duration,
+        complexity: complexity,
+        affordability: affordability,
+        isGlutenFree: isGlutenFree,
+        isLactoseFree: isLactoseFree,
+        isVegan: isVegan,
+        isVegetarian: isVegetarian,
+        weekDay: weekDay,
+        mealType: mealType,
+        firebaseId: firebaseId ?? this.firebaseId,
+      );
     }
   }
 
